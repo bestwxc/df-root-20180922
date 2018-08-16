@@ -1,0 +1,25 @@
+spring:
+  application:
+    name: df-cloud-config-server
+  cloud:
+    config:
+      server:
+        native:
+          search-locations:
+            #- file:/root/workspace/dz-kfb/dz-kfb-cloud-config-server/config
+            - classpath:/config
+  profiles:
+    active: native
+server:
+  port: 8840
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://127.0.0.1:8810/eureka/
+  instance:
+    hostname: localhost
+    ip-address: 127.0.0.1
+    instance-id: ${eureka.instance.ip-address}:${spring.application.name}:${server.port}
+    prefer-ip-address: true
