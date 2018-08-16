@@ -31,6 +31,11 @@
         <spring-cloud.version>Finchley.SR1</spring-cloud.version>
         <spring-boot.mainClass>net.df.Application</spring-boot.mainClass>
 
+        <!--版本发布仓库配置-->
+        <nexus.server>http://nexus.menghuanhua.com</nexus.server>
+        <releases.repo.id>maven-releases</releases.repo.id>
+        <snapshots.repo.id>maven-snapshots</snapshots.repo.id>
+
         <!-- maven编译插件配置 -->
         <compile.source>1.8</compile.source>
         <compile.target>1.8</compile.target>
@@ -152,8 +157,18 @@
         </dependencies>
     </dependencyManagement>
     <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+            </plugin>
+        </plugins>
         <pluginManagement>
             <plugins>
+                <!--编译插件-->
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
@@ -163,6 +178,7 @@
                         <encoding>${compile.encoding}</encoding>
                     </configuration>
                 </plugin>
+                <!--springboot 插件-->
                 <plugin>
                     <groupId>org.springframework.boot</groupId>
                     <artifactId>spring-boot-maven-plugin</artifactId>
@@ -178,6 +194,7 @@
                         </execution>
                     </executions>
                 </plugin>
+                <!--mybatis-generator插件-->
                 <plugin>
                     <groupId>org.mybatis.generator</groupId>
                     <artifactId>mybatis-generator-maven-plugin</artifactId>
@@ -200,6 +217,7 @@
                         </dependency>
                     </dependencies>
                 </plugin>
+                <!--自定义打包装配插件-->
                 <plugin>
                     <artifactId>maven-assembly-plugin</artifactId>
                     <configuration>
@@ -219,8 +237,32 @@
                         </execution>
                     </executions>
                 </plugin>
+                <!--源码插件-->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-source-plugin</artifactId>
+                    <executions>
+                        <execution>
+                            <id>attach-sources</id>
+                            <goals>
+                                <goal>jar-no-fork</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
             </plugins>
         </pluginManagement>
     </build>
-
+    <distributionManagement>
+        <repository>
+            <id>dz-kfb-release</id>
+            <name>Releases</name>
+            <url>${nexus.server}/repository/${releases.repo.id}</url>
+        </repository>
+        <snapshotRepository>
+            <id>dz-kfb-snapshot</id>
+            <name>Snapshot</name>
+            <url>${nexus.server}/repository/${releases.repo.id}</url>
+        </snapshotRepository>
+    </distributionManagement>
 </project>
