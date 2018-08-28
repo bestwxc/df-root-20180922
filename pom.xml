@@ -6,14 +6,8 @@
     <packaging>pom</packaging>
     <modules>
         <module>df-base</module>
-        <module>df-boot-cli</module>
-        <module>df-boot-web</module>
-        <module>df-boot-mybatis</module>
-        <module>df-boot-datasource</module>
         <module>df-cloud-root</module>
-        <module>df-boot-redis</module>
-        <module>df-cloud-eureka-server</module>
-        <module>df-cloud-config-server</module>
+        <module>df-boot-root</module>
     </modules>
 
     <parent>
@@ -32,9 +26,9 @@
         <spring-boot.mainClass>net.df.Application</spring-boot.mainClass>
 
         <!--版本发布仓库配置-->
-        <nexus.server>http://nexus.menghuanhua.com</nexus.server>
-        <releases.repo.id>maven-releases</releases.repo.id>
-        <snapshots.repo.id>maven-snapshots</snapshots.repo.id>
+        <nexus.server>http://nexus.menghuanhua.com:8081/repository</nexus.server>
+        <releases.repo.id>df-releases</releases.repo.id>
+        <snapshots.repo.id>df-snapshots</snapshots.repo.id>
 
         <!-- maven编译插件配置 -->
         <compile.source>1.8</compile.source>
@@ -178,6 +172,19 @@
                         <encoding>${compile.encoding}</encoding>
                     </configuration>
                 </plugin>
+                <!--源码插件-->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-source-plugin</artifactId>
+                    <executions>
+                        <execution>
+                            <id>attach-sources</id>
+                            <goals>
+                                <goal>jar-no-fork</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
                 <!--springboot 插件-->
                 <plugin>
                     <groupId>org.springframework.boot</groupId>
@@ -237,32 +244,19 @@
                         </execution>
                     </executions>
                 </plugin>
-                <!--源码插件-->
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-source-plugin</artifactId>
-                    <executions>
-                        <execution>
-                            <id>attach-sources</id>
-                            <goals>
-                                <goal>jar-no-fork</goal>
-                            </goals>
-                        </execution>
-                    </executions>
-                </plugin>
             </plugins>
         </pluginManagement>
     </build>
     <distributionManagement>
         <repository>
-            <id>dz-kfb-release</id>
-            <name>Releases</name>
-            <url>${nexus.server}/repository/${releases.repo.id}</url>
+            <id>${releases.repo.id}</id>
+            <name>${releases.repo.id}</name>
+            <url>${nexus.server}/${releases.repo.id}</url>
         </repository>
         <snapshotRepository>
-            <id>dz-kfb-snapshot</id>
-            <name>Snapshot</name>
-            <url>${nexus.server}/repository/${releases.repo.id}</url>
+            <id>${snapshots.repo.id}</id>
+            <name>${snapshots.repo.id}</name>
+            <url>${nexus.server}/${snapshots.repo.id}</url>
         </snapshotRepository>
     </distributionManagement>
 </project>
