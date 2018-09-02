@@ -7,13 +7,5 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
         WebProperties.class
 })
 public class WebConfig {
-    private boolean openHttpDebugLog;
 
-    public void setOpenHttpDebugLog(boolean openHttpDebugLog) {
-        this.openHttpDebugLog = openHttpDebugLog;
-    }
-
-    public boolean isOpenHttpDebugLog() {
-        return openHttpDebugLog;
-    }
 }
