@@ -8,7 +8,7 @@
         <module>df-base</module>
         <module>df-cloud-root</module>
         <module>df-boot-root</module>
-        <module>df-generator</module>
+        <module>df-generator-engine</module>
     </modules>
 
     <parent>
