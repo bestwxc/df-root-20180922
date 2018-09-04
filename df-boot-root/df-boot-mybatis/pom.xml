@@ -48,36 +48,7 @@
     </dependencies>
     <dependencyManagement>
         <dependencies>
-            <dependency>
-                <groupId>tk.mybatis</groupId>
-                <artifactId>mapper-core</artifactId>
-                <version>${mapper.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>tk.mybatis</groupId>
-                <artifactId>mapper-base</artifactId>
-                <version>${mapper.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>tk.mybatis</groupId>
-                <artifactId>mapper-extra</artifactId>
-                <version>${mapper.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>tk.mybatis</groupId>
-                <artifactId>mapper-spring</artifactId>
-                <version>${mapper.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>tk.mybatis</groupId>
-                <artifactId>mapper-weekend</artifactId>
-                <version>${mapper-weekend.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>tk.mybatis</groupId>
-                <artifactId>mapper-generator</artifactId>
-                <version>${mapper.version}</version>
-            </dependency>
+
         </dependencies>
     </dependencyManagement>
 </project>

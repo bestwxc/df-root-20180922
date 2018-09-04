@@ -8,6 +8,7 @@
         <module>df-base</module>
         <module>df-cloud-root</module>
         <module>df-boot-root</module>
+        <module>df-generator</module>
     </modules>
 
     <parent>
@@ -53,7 +54,7 @@
         <mapper-starter.version>2.0.4</mapper-starter.version>
         <mapper.version>1.0.5</mapper.version>
         <mapper-weekend.version>1.1.4.1</mapper-weekend.version>
-        <mybatis-generator-maven-plugin.version>1.3.7</mybatis-generator-maven-plugin.version>
+        <mybatis-generator.version>1.3.7</mybatis-generator.version>
 
         <!--cache-->
         <javax-cache.version>1.1.0</javax-cache.version>
@@ -166,6 +167,41 @@
                 <artifactId>commons-codec</artifactId>
                 <version>${commons-codec.version}</version>
             </dependency>
+            <dependency>
+                <groupId>org.mybatis.generator</groupId>
+                <artifactId>mybatis-generator-core</artifactId>
+                <version>${mybatis-generator.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>tk.mybatis</groupId>
+                <artifactId>mapper-core</artifactId>
+                <version>${mapper.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>tk.mybatis</groupId>
+                <artifactId>mapper-base</artifactId>
+                <version>${mapper.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>tk.mybatis</groupId>
+                <artifactId>mapper-extra</artifactId>
+                <version>${mapper.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>tk.mybatis</groupId>
+                <artifactId>mapper-spring</artifactId>
+                <version>${mapper.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>tk.mybatis</groupId>
+                <artifactId>mapper-weekend</artifactId>
+                <version>${mapper-weekend.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>tk.mybatis</groupId>
+                <artifactId>mapper-generator</artifactId>
+                <version>${mapper.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
     <build>
@@ -223,7 +259,7 @@
                 <plugin>
                     <groupId>org.mybatis.generator</groupId>
                     <artifactId>mybatis-generator-maven-plugin</artifactId>
-                    <version>${mybatis-generator-maven-plugin.version}</version>
+                    <version>${mybatis-generator.version}</version>
                     <configuration>
                         <configurationFile>${basedir}/src/main/resources/generator/generatorConfig.xml</configurationFile>
                         <overwrite>true</overwrite>
