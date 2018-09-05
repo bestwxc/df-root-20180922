@@ -43,7 +43,7 @@ public class AesUtils {
 
     /**
      * 生成AESKEY
-     * @param keyString
+     * @param keyString HEX编码
      * @return
      */
     public static byte[] generateKeyByte(String keyString){
@@ -52,7 +52,7 @@ public class AesUtils {
 
     /**
      * 生成AESKEY
-     * @param keyString
+     * @param keyString HEX编码
      * @return
      */
     public static SecretKeySpec generateKey(String keyString){
@@ -79,13 +79,40 @@ public class AesUtils {
     }
 
     /**
-     * 加密
+     * AES加/解密
+     * @param content
+     * @param key
+     * @return
+     */
+    public static byte[] encode(byte[] content, SecretKeySpec key, int mode) {
+        try {
+            Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");// 创建密码器
+            cipher.init(mode, key);// 初始化为解密模式的密码器
+            byte[] result = cipher.doFinal(content);
+            return result;
+        } catch (Exception e){
+            throw new DfException("AES加/解密错误",e);
+        }
+    }
+
+    /**
+     * AES加密
      * @param content
      * @param key
      * @return
      */
     public static byte[] encrypt(byte[] content, SecretKeySpec key){
         return encode(content, key, Cipher.ENCRYPT_MODE);
+    }
+
+    /**
+     * AES解密
+     * @param content
+     * @param key
+     * @return
+     */
+    public static byte[] decrypt(byte[] content, SecretKeySpec key){
+        return encode(content, key, Cipher.DECRYPT_MODE);
     }
 
     /**
@@ -108,8 +135,8 @@ public class AesUtils {
      * @param key
      * @return
      */
-    public static String encryptHex(byte[] content, SecretKeySpec key){
-        return HexUtils.toHexString(encrypt(content,key));
+    public static String encryptHex(String content, SecretKeySpec key){
+        return HexUtils.toHexString(encrypt(content, key));
     }
 
     /**
@@ -118,20 +145,10 @@ public class AesUtils {
      * @param key
      * @return
      */
-    public static String encryptHex(String content, SecretKeySpec key){
-        return HexUtils.toHexString(encrypt(content, key));
+    public static String encryptHex(byte[] content, SecretKeySpec key){
+        return HexUtils.toHexString(encrypt(content,key));
     }
 
-    /**
-     * AES解密
-     * @param content
-     * @param key
-     * @param mode
-     * @return
-     */
-    public static byte[] encode(byte[] content, SecretKeySpec key,int mode){
-        return encode(content, key, Cipher.DECRYPT_MODE);
-    }
 
     /**
      * AES解密
@@ -149,7 +166,7 @@ public class AesUtils {
      * @param key
      * @return
      */
-    public static String decryptString(byte[] content, SecretKeySpec key) {
+    public static String decryptHex(byte[] content, SecretKeySpec key) {
         return new String(decrypt(content,key),Charsets.UTF_8);
     }
 
@@ -159,24 +176,7 @@ public class AesUtils {
      * @param key
      * @return
      */
-    public static String decryptString(String hexContent, SecretKeySpec key){
-        return new String(decrypt(hexContent,key),Charsets.UTF_8);
-    }
-
-    /**
-     * AES加/解密
-     * @param content
-     * @param key
-     * @return
-     */
-    public static byte[] decrypt(byte[] content, SecretKeySpec key) {
-        try {
-            Cipher cipher = Cipher.getInstance("AES");// 创建密码器
-            cipher.init(Cipher.DECRYPT_MODE, key);// 初始化为解密模式的密码器
-            byte[] result = cipher.doFinal(content);
-            return result;
-        } catch (Exception e){
-            throw new DfException("AES加/解密错误",e);
-        }
+    public static String decryptHex(String hexContent, SecretKeySpec key){
+        return decryptHex(HexUtils.toByte(hexContent),key);
     }
 }
