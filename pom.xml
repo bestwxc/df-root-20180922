@@ -9,6 +9,7 @@
         <module>df-cloud-root</module>
         <module>df-boot-root</module>
         <module>df-generator-engine</module>
+        <module>df-generator-maven-plugin</module>
     </modules>
 
     <parent>
