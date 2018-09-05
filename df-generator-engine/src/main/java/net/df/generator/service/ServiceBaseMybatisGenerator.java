@@ -9,6 +9,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.util.ReflectionUtils;
+
+import java.io.File;
 import java.io.FileWriter;
 import java.io.Writer;
 import java.util.HashMap;
@@ -60,15 +62,15 @@ public class ServiceBaseMybatisGenerator {
         String modelClass = basePackage + "." + moduleName + ".model." + className;
         String serviceClass = basePackage + "." + moduleName + ".service." + className + "Service";
         try {
-            Class clszz = Class.forName(moduleName);
+            Class clszz = Class.forName(modelClass);
             LinkedHashMap<String, String> fieldMap = new LinkedHashMap();
             LinkedHashMap<String, String> fieldMap2 = new LinkedHashMap();
 
 
             ReflectionUtils.doWithFields(clszz, field -> {
                 ReflectionUtils.makeAccessible(field);
-                String type = field.getDeclaringClass().getName();
-                type = type.substring(type.lastIndexOf("."),type.length());
+                String type = field.getType().getName();
+                type = type.substring(type.lastIndexOf(".") + 1,type.length());
                 fieldMap.put(field.getName(), type);
                 if("id".equals(field.getName()) || "createTime".equals(field.getName()) || "updateTime".equals(field.getName())){
 
@@ -88,7 +90,7 @@ public class ServiceBaseMybatisGenerator {
             cfg.setDefaultEncoding("UTF-8");
             cfg.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
             Template temp = cfg.getTemplate("Service.ftl");
-            writer = new FileWriter(new ClassPathResource(serviceClass.replaceAll(".", "/")).getFile());
+            writer = new FileWriter(new File("src" + File.separator + "main" + File.separator + "java" + File.separator + serviceClass.replaceAll("\\.", File.separator) + ".java"));
             temp.process(map, writer);
         }catch (Exception e){
             logger.error("生成Service出错", e);

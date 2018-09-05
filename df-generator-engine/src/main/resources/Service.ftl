@@ -19,10 +19,16 @@ public class ${className}Service {
 
     <#assign  keys=fieldMap?keys/>
     <#assign  keys2=fieldMap2?keys/>
-
-    public ${className} add(<#list keys2 as key>${fieldMap2["${key}"]} ${key},</#list>){
+    /**
+     * 新增
+    <#list keys2 as key>
+     * @param ${key}
+    </#list>
+     * @return
+     */
+    public ${className} add(<#list keys2 as key>${fieldMap2["${key}"]} ${key}<#if keys2?size != (key_index + 1)>,</#if></#list>){
         ${className} ${objectName} = new ${className}();
-        setObject(<#list keys2 as key>${key},</#list>);
+        setObject(${objectName},<#list keys2 as key>${key}<#if keys2?size != (key_index + 1)>,</#if></#list>);
         Date now = new Date();
         ${objectName}.setCreateTime(now);
         ${objectName}.setUpdateTime(now);
@@ -31,61 +37,99 @@ public class ${className}Service {
     }
 
 
-    public ${className} update(Long id, String ${objectName}Code, String ${objectName}Name, Long parent${className}Id){
+    /**
+     * 更新
+     * @param id
+    <#list keys2 as key>
+     * @param ${key}
+    </#list>
+     * @return
+     */
+    public ${className} update(Long id, <#list keys2 as key>${fieldMap2["${key}"]} ${key}<#if keys2?size != (key_index + 1)>,</#if></#list>){
         ${className} ${objectName} = ${objectName}Mapper.selectByPrimaryKey(id);
-        setObject(${objectName}, ${objectName}Code, ${objectName}Name, parent${className}Id);
+        setObject(${objectName},<#list keys2 as key>${key}<#if keys2?size != (key_index + 1)>,</#if></#list>);
         Date now = new Date();
         ${objectName}.setUpdateTime(now);
         ${objectName}Mapper.updateByPrimaryKey(${objectName});
         return ${objectName};
     }
 
-    public List<${className}> list(Long id, String ${objectName}Code, String ${objectName}Name, Long parent${className}Id){
-        Example example = this.getExample(id, ${objectName}Code, ${objectName}Name, parent${className}Id);
+    /**
+     * 查询
+    <#list keys as key>
+     * @param ${key}
+    </#list>
+     * @return
+     */
+    public List<${className}> list(<#list keys as key>${fieldMap["${key}"]} ${key}<#if keys?size != (key_index + 1)>,</#if></#list>){
+        Example example = this.getExample(<#list keys as key>${key}<#if keys?size != (key_index + 1)>,</#if></#list>);
         return ${objectName}Mapper.selectByExample(example);
     }
 
-    public ${className} listOne(Long id, String ${objectName}Code, String ${objectName}Name, Long parent${className}Id){
-        Example example = this.getExample(id, ${objectName}Code, ${objectName}Name, parent${className}Id);
+    /**
+     * 查询一个
+    <#list keys as key>
+     * @param ${key}
+    </#list>
+     * @return
+     */
+    public ${className} listOne(<#list keys as key>${fieldMap["${key}"]} ${key}<#if keys?size != (key_index + 1)>,</#if></#list>){
+        Example example = this.getExample(<#list keys as key>${key}<#if keys?size != (key_index + 1)>,</#if></#list>);
         return ${objectName}Mapper.selectOneByExample(example);
     }
 
 
-    public int delete(Long id, String ${objectName}Code, String ${objectName}Name, Long parent${className}Id){
-        Example example = this.getExample(id, ${objectName}Code, ${objectName}Name, parent${className}Id);
+    /**
+     * 删除
+    <#list keys as key>
+     * @param ${key}
+    </#list>
+     * @return
+     */
+    public int delete(<#list keys as key>${fieldMap["${key}"]} ${key}<#if keys?size != (key_index + 1)>,</#if></#list>){
+        Example example = this.getExample(<#list keys as key>${key}<#if keys?size != (key_index + 1)>,</#if></#list>);
         return ${objectName}Mapper.deleteByExample(example);
     }
 
+    /**
+     * 删除
+     * @param id
+     * @return
+     */
     public int delete(Long id){
-        return this.delete(id, null, null, null);
+        return this.delete(<#list keys as key> <#if key_index == 0>id<#else>null</#if><#if keys?size != (key_index + 1)>,</#if></#list>);
     }
 
-    private void setObject(${className} ${objectName}, String ${objectName}Code, String ${objectName}Name, Long parent${className}Id){
-        if(ValidateUtils.isNotEmptyString(${objectName}Code)){
-            ${objectName}.set${className}Code(${objectName}Code);
+
+    /**
+     * 组装更新数据
+    <#list keys2 as key>
+     * @param ${key}
+    </#list>
+     * @return
+     */
+    private void setObject(${className} ${objectName}, <#list keys2 as key>${fieldMap2["${key}"]} ${key}<#if keys2?size != (key_index + 1)>,</#if></#list>){
+        <#list keys2 as key>
+        if(ValidateUtils.<#if fieldMap2["${key}"] == "String">isNotEmptyString<#else>notNull</#if>(${key})){
+            ${objectName}.set${key?cap_first}(${key});
         }
-        if(ValidateUtils.isNotEmptyString(${objectName}Name)){
-            ${objectName}.set${className}Name(${objectName}Name);
-        }
-        if(ValidateUtils.notNull(parent${className}Id)){
-            ${objectName}.setParent${className}Id(parent${className}Id);
-        }
+        </#list>
     }
 
-    private Example getExample(Long id, String ${objectName}Code, String ${objectName}Name, Long parent${className}Id){
+    /**
+     * 组装Example
+    <#list keys as key>
+     * @param ${key}
+    </#list>
+     * @return
+     */
+    private Example getExample(<#list keys as key>${fieldMap["${key}"]} ${key}<#if keys?size != (key_index + 1)>,</#if></#list>){
         WeekendSqls<${className}> sqls = WeekendSqls.<${className}>custom();
-        if(ValidateUtils.notNull(id)){
-            sqls.andEqualTo(${className}::getId,id);
+        <#list keys as key>
+        if(ValidateUtils.<#if fieldMap["${key}"] == "String">isNotEmptyString<#else>notNull</#if>(${key})) {
+            sqls.andEqualTo(${className}::get${key?cap_first}, ${key});
         }
-        if(ValidateUtils.isNotEmptyString(${objectName}Code)){
-            sqls.andEqualTo(${className}::get${className}Code,${objectName}Code);
-        }
-        if(ValidateUtils.isNotEmptyString(${objectName}Name)){
-            sqls.andEqualTo(${className}::get${className}Name,${objectName}Name);
-        }
-        if(ValidateUtils.notNull(parent${className}Id)){
-            sqls.andEqualTo(${className}::getParent${className}Id,parent${className}Id);
-        }
+        </#list>
         Example example = new Example.Builder(${className}.class).where(sqls).build();
         return example;
     }

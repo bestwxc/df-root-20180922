@@ -114,6 +114,11 @@
                 <artifactId>df-boot-redis</artifactId>
                 <version>${df-root.version}</version>
             </dependency>
+            <dependency>
+                <groupId>net.df</groupId>
+                <artifactId>df-generator-engine</artifactId>
+                <version>${df-root.version}</version>
+            </dependency>
 
             <dependency>
                 <groupId>mysql</groupId>
