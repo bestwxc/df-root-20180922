@@ -32,6 +32,11 @@ public class ErrorCode {
     public static Integer UNLOGIN = -999;
 
     /**
+     * 重复记录
+     */
+    public static Integer DUPLICATE_RECORD = -1000;
+
+    /**
      * 未分类业务异常
      */
     public static Integer UNCATCH_BUSINESS_EXCEPTION = -10000;
