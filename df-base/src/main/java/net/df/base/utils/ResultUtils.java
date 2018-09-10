@@ -50,7 +50,7 @@ public class ResultUtils {
      * @return
      */
     public static Result build(Integer errorNo, String errorInfo, Integer pageNo, Integer pageSize, Object result){
-        build(errorNo,errorInfo, pageNo, pageSize, null, result);
+        return build(errorNo,errorInfo, pageNo, pageSize, null, result);
     }
 
     /**
