@@ -18,15 +18,17 @@ public class ResultUtils {
      * @param pageNo
      * @param pageSize
      * @param result
+     * @param total
      * @return
      */
-    public static Result build(Integer errorNo, String errorInfo, Integer pageNo, Integer pageSize, Object result){
+    public static Result build(Integer errorNo, String errorInfo, Integer pageNo, Integer pageSize, Integer total, Object result){
         Result returnResult = null;
         if(result instanceof List){
             returnResult = new MultiResult();
             if(ValidateUtils.notNull(pageNo)){
                 ((MultiResult)returnResult).setPageNo(pageNo);
                 ((MultiResult)returnResult).setPageSize(pageSize);
+                ((MultiResult)returnResult).setTotal(total);
             }
         }else{
             returnResult = new SingleResult();
@@ -35,6 +37,20 @@ public class ResultUtils {
         returnResult.setErrorNo(errorNo);
         returnResult.setErrorInfo(errorInfo);
         return returnResult;
+    }
+
+
+    /**
+     * 构建结果对象
+     * @param errorNo
+     * @param errorInfo
+     * @param pageNo
+     * @param pageSize
+     * @param result
+     * @return
+     */
+    public static Result build(Integer errorNo, String errorInfo, Integer pageNo, Integer pageSize, Object result){
+        build(errorNo,errorInfo, pageNo, pageSize, null, result);
     }
 
     /**
@@ -46,6 +62,19 @@ public class ResultUtils {
      */
     public static Result build(Integer errorNo, String errorInfo, Object object){
         return build(errorNo, errorInfo, null, null, object);
+    }
+
+
+    /**
+     * 成功返回
+     * @param pageNo
+     * @param pageSize
+     * @param total
+     * @param resultObject
+     * @return
+     */
+    public static Result success(Integer pageNo, Integer pageSize, Integer total, Object resultObject){
+        return build(ErrorCode.SUCCESS, "调用成功", pageNo, pageSize, total, resultObject);
     }
 
     /**
