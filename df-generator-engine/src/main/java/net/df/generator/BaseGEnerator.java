@@ -1,4 +1,4 @@
-package net.df.generator.service;
+package net.df.generator;
 
 public abstract class BaseGEnerator implements Generator{
     protected String basePackage = "net.df.module";

@@ -1,4 +1,4 @@
-package net.df.generator.service;
+package net.df.generator;
 
 import freemarker.template.Configuration;
 import freemarker.template.Template;

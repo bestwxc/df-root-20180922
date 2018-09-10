@@ -1,4 +1,4 @@
-package net.df.generator.service;
+package net.df.generator;
 
 /**
  * 生成接口
