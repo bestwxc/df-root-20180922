@@ -9,7 +9,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.util.ReflectionUtils;
-
 import java.io.File;
 import java.io.FileWriter;
 import java.io.Writer;
@@ -17,48 +16,17 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class ServiceBaseMybatisGenerator {
+/**
+ * Server生成
+ */
+public class ServiceBaseMybatisGenerator extends BaseGEnerator {
 
     private Logger logger = LoggerFactory.getLogger(ServiceBaseMybatisGenerator.class);
-    private String basePackage = "net.df.module";
-    private String className;
-    private String objectName;
-    private String moduleName;
 
-    public String getBasePackage() {
-        return basePackage;
-    }
-
-    public void setBasePackage(String basePackage) {
-        this.basePackage = basePackage;
-    }
-
-    public String getClassName() {
-        return className;
-    }
-
-    public void setClassName(String className) {
-        this.className = className;
-    }
-
-    public String getObjectName() {
-        return objectName;
-    }
-
-    public void setObjectName(String objectName) {
-        this.objectName = objectName;
-    }
-
-    public String getModuleName() {
-        return moduleName;
-    }
-
-    public void setModuleName(String moduleName) {
-        this.moduleName = moduleName;
-    }
-
+    @Override
     public void generate(){
         Writer writer = null;
+        String objectName = className.substring(0,1).toLowerCase() + className.substring(1,className.length());
         String modelClass = basePackage + "." + moduleName + ".model." + className;
         String serviceClass = basePackage + "." + moduleName + ".service." + className + "Service";
         try {
@@ -85,8 +53,7 @@ public class ServiceBaseMybatisGenerator {
             map.put("fieldMap", fieldMap);
             map.put("fieldMap2", fieldMap2);
             Configuration cfg = new Configuration(Configuration.VERSION_2_3_22);
-            Resource resource = new ClassPathResource("");
-            cfg.setDirectoryForTemplateLoading(resource.getFile());
+            cfg.setClassForTemplateLoading(this.getClass(),"/");
             cfg.setDefaultEncoding("UTF-8");
             cfg.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
             Template temp = cfg.getTemplate("Service.ftl");
