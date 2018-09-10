@@ -7,7 +7,7 @@ import java.util.List;
  * 多结果集
  * @param <T>
  */
-public class MultiResult<T> extends Result<T>{
+public class MultiResult<T> extends Result<List<T>>{
 
     private Integer pageNo = 1;
     private Integer pageSize = 100;
@@ -32,11 +32,13 @@ public class MultiResult<T> extends Result<T>{
         return pageSize;
     }
 
-    public void setResultList(List<T> list){
-        super.setResult(list);
+    @Override
+    public List<T> getResult() {
+        return super.getResult();
     }
 
-    public List<T> getResultList(){
-        return (List<T>) super.getResult();
+    @Override
+    public void setResult(List<T> result) {
+        super.setResult(result);
     }
 }

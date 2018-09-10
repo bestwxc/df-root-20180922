@@ -14,7 +14,7 @@ public class Result<T>{
 
     private String resultType;
 
-    private Object result;
+    private T result;
 
     public Result(){
         this(ResultType.OBJECT);
@@ -48,11 +48,11 @@ public class Result<T>{
         return resultType;
     }
 
-    public Object getResult() {
+    public T getResult() {
         return result;
     }
 
-    public void setResult(Object result) {
+    public void setResult(T result) {
         this.result = result;
     }
 }
