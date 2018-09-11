@@ -8,7 +8,6 @@
         <module>df-base</module>
         <module>df-cloud-root</module>
         <module>df-boot-root</module>
-        <module>df-generator-engine</module>
         <module>df-generator-maven-plugin</module>
     </modules>
 
@@ -28,9 +27,9 @@
         <spring-boot.mainClass>net.df.Application</spring-boot.mainClass>
 
         <!--版本发布仓库配置-->
-        <nexus.server>http://nexus.menghuanhua.com:8081/repository</nexus.server>
-        <releases.repo.id>df-releases</releases.repo.id>
-        <snapshots.repo.id>df-snapshots</snapshots.repo.id>
+        <nexus.server>http://nexus.dgzq.com.cn:8081/repository</nexus.server>
+        <releases.repo.id>dz-kfb-release</releases.repo.id>
+        <snapshots.repo.id>dz-kfb-snapshot</snapshots.repo.id>
 
         <!-- maven编译插件配置 -->
         <compile.source>1.8</compile.source>
@@ -222,6 +221,11 @@
         </plugins>
         <pluginManagement>
             <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-plugin-plugin</artifactId>
+                    <version>3.5.2</version>
+                </plugin>
                 <!--编译插件-->
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>

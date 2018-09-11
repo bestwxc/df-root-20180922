@@ -42,13 +42,4 @@ public abstract class BaseGEnerator implements Generator{
         return this.getBasePackage()+ "." + this.getModuleName() + ".controller."
                 + this.configuration.getController().getControllerClassName();
     }
-
-    public Class getModelClazz(){
-        String modelClass = this.getModelClass();
-        try {
-            return Class.forName(modelClass);
-        } catch (ClassNotFoundException e) {
-            throw new DfException("modelClass不存在",e);
-        }
-    }
 }

@@ -1,9 +1,16 @@
 package net.df.generator;
 
+import java.io.File;
+
 /**
  * 配置类
  */
 public class Configuration {
+
+    /**
+     * 源文件目录
+     */
+    private String srcFolder = "src" + File.separator + "main" + File.separator + "java";
 
     /**
      * 公共包名
@@ -34,6 +41,14 @@ public class Configuration {
      * view配置
      */
     private ViewConfiguration view;
+
+    public String getSrcFolder() {
+        return srcFolder;
+    }
+
+    public void setSrcFolder(String srcFolder) {
+        this.srcFolder = srcFolder;
+    }
 
     public String getBasePackage() {
         return basePackage;

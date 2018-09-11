@@ -9,6 +9,8 @@ import java.io.*;
  */
 public class FileUtils {
 
+    private static String defalutCharset = "UTF-8";
+
     /**
      * 将输入流保存进指定文件
      * @param inputStream
@@ -138,5 +140,54 @@ public class FileUtils {
      */
     public static void close(OutputStream os){
         close(os,null);
+    }
+
+    /**
+     * 读取文件成字符串
+     * @param file
+     * @param charset
+     * @return
+     */
+    public static String readFile(File file,String charset){
+        if(file == null || !file.exists()){
+            throw new DfException("文件不存在");
+        }
+        InputStream inputStream = null;
+        try {
+            inputStream = new FileInputStream(file);
+            int length = inputStream.available();
+            byte[] data = new byte[length];
+            inputStream.read(data);
+            return new String(data, charset);
+        }catch (IOException e){
+            throw new DfException("读取文件出错", e);
+        }finally {
+            close(inputStream);
+        }
+    }
+
+    /**
+     * 读取文件成字符串
+     * @param file
+     * @return
+     */
+    public static String readFile(File file){
+        return readFile(file, defalutCharset);
+    }
+
+
+    /**
+     * 读取文件成字符串
+     * @param filePath
+     * @param charset
+     * @return
+     */
+    public static String readFile(String filePath, String charset){
+        File file = new File(filePath);
+        return readFile(file,charset);
+    }
+
+    public static String readFile(String filePath) {
+        return readFile(filePath,defalutCharset);
     }
 }

@@ -1,6 +1,7 @@
 package net.df.base.utils;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import net.df.base.constants.BaseConstants;
 import net.df.base.exception.DfException;
@@ -10,6 +11,16 @@ import net.df.base.exception.DfException;
  */
 public class JsonUtils {
     private static ObjectMapper objectMapper = new ObjectMapper();
+
+    /**
+     * 获取JavaType
+     * @param parametrized
+     * @param parameterClasses
+     * @return
+     */
+    public static JavaType getJavaType(Class<?> parametrized, Class... parameterClasses){
+        return objectMapper.getTypeFactory().constructParametricType(parametrized, parameterClasses);
+    }
 
     /**
      * 将Json转化为字符串
@@ -59,6 +70,21 @@ public class JsonUtils {
     public static <T> T getObjectFromString(String json, Class<T> clazz) {
         try {
             return objectMapper.readValue(json, clazz);
+        }catch (Exception e){
+            throw new DfException("将Json转换为对象出错",e);
+        }
+    }
+
+    /**
+     * 将Json转化为对象
+     * @param json
+     * @param javaType
+     * @param <T>
+     * @return
+     */
+    public static <T> T getObjectFromString(String json,JavaType javaType){
+        try {
+            return objectMapper.readValue(json, javaType);
         }catch (Exception e){
             throw new DfException("将Json转换为对象出错",e);
         }

@@ -5,15 +5,16 @@ import freemarker.template.Template;
 import freemarker.template.TemplateExceptionHandler;
 import net.df.base.exception.DfException;
 import net.df.base.utils.FileUtils;
+import net.df.base.utils.RegexUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.util.ReflectionUtils;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import static net.df.base.utils.StringUtils.classNameToObjectName;
 
@@ -26,6 +27,8 @@ public class BaseBusinessGenerate extends BaseGEnerator {
 
     private Configuration cfg = null;
 
+    String separator = "/".equals(File.separator) ? File.separator : "\\\\";
+
     public BaseBusinessGenerate(){
 
     }
@@ -37,18 +40,13 @@ public class BaseBusinessGenerate extends BaseGEnerator {
 
     @Override
     public void generate(){
-        //加载model类
-        Class clszz = this.getModelClazz();
         //初始化freemarker配置文件
         this.initFreeMarkerConfiguration();
         Object root = this.getDataModel();
-        String projectPath = "src" + File.separator + "main" + File.separator + "java";
+        String projectPath = this.getConfiguration().getSrcFolder();
+        String modelClass = this.getModelClass();
         String serviceClass = this.getServiceClass();
         String controllerClass = this.getControllerClass();
-        String separator = File.separator;
-        if(!"/".equals(File.separator)){
-            separator = "\\\\";
-        }
         String serviceFilePath = projectPath + File.separator + serviceClass.replaceAll("\\.", separator) + ".java";
         String controllerFilePath = projectPath + File.separator + controllerClass.replaceAll("\\.", separator) + ".java";
         String viewFilePath = null;
@@ -137,21 +135,34 @@ public class BaseBusinessGenerate extends BaseGEnerator {
         LinkedHashMap<String, String> allFieldMap = new LinkedHashMap();
         //仅包含业务字段，去除id,create_time,update_time
         LinkedHashMap<String, String> fieldMap = new LinkedHashMap();
+        String modelFilePath = this.getConfiguration().getSrcFolder() + File.separator + modelClass.replaceAll("\\.",separator) + ".java";
 
-        ReflectionUtils.doWithFields(this.getModelClazz(), field -> {
-            ReflectionUtils.makeAccessible(field);
-            String type = field.getType().getName();
-            type = type.substring(type.lastIndexOf(".") + 1,type.length());
-            allFieldMap.put(field.getName(), type);
-            if("id".equals(field.getName()) || "createTime".equals(field.getName()) || "updateTime".equals(field.getName())){
-            }else{
-                fieldMap.put(field.getName(), type);
+        String modelSource = FileUtils.readFile(modelFilePath);
+        List<String> list = RegexUtils.getMatch(modelSource,"private.+?;$");
+        if(list.size() == 0){
+            throw new DfException("未从model对象中解析到需要的字段");
+        }
+        for(String s : list){
+            String[] ss = s.split("\\s");
+            String key = ss[2].replaceAll(";","");
+            allFieldMap.put(key, ss[1]);
+            if(!"id".equals(ss[1]) && !"createTime".equals(ss[1]) && !"updateTime".equals(ss[1])){
+                fieldMap.put(key,ss[1]);
             }
-        });
+        }
         root.put("allFieldMap", allFieldMap);
         root.put("fieldMap", fieldMap);
         //直接将详细的配置放进去
         root.put("config",this.getConfiguration());
         return root;
+    }
+
+    public static void main(String[] args) {
+        String s = "private Long char;";
+        String[] ss = s.split("\\s");
+        for (String sss : ss){
+            System.out.println(sss);
+            System.out.println(sss.length());
+        }
     }
 }
