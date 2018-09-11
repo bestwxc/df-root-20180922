@@ -12,7 +12,7 @@ public class ServiceConfiguration {
     /**
      * Service名称
      */
-    private String serviceClass;
+    private String serviceClassName;
 
     public boolean isEnabled() {
         return enabled;
@@ -22,11 +22,11 @@ public class ServiceConfiguration {
         this.enabled = enabled;
     }
 
-    public String getServiceClass() {
-        return serviceClass;
+    public String getServiceClassName() {
+        return serviceClassName;
     }
 
-    public void setServiceClass(String serviceClass) {
-        this.serviceClass = serviceClass;
+    public void setServiceClassName(String serviceClassName) {
+        this.serviceClassName = serviceClassName;
     }
 }

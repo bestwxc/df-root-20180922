@@ -1,31 +1,35 @@
 package net.df.generator;
 
 public abstract class BaseGEnerator implements Generator{
-    protected String basePackage = "net.df.module";
-    protected String moduleName;
-    protected String className;
+    private Configuration configuration;
 
-    public String getBasePackage() {
-        return basePackage;
+    public Configuration getConfiguration() {
+        return configuration;
     }
 
-    public void setBasePackage(String basePackage) {
-        this.basePackage = basePackage;
+    public void setConfiguration(Configuration configuration) {
+        this.configuration = configuration;
     }
 
-    public String getModuleName() {
-        return moduleName;
+    public String getBasePackage(){
+        return this.configuration.getBasePackage();
     }
 
-    public void setModuleName(String moduleName) {
-        this.moduleName = moduleName;
+    public String getModuleName(){
+        return this.configuration.getModuleName();
+    }
+    public String getModelClass(){
+        return this.getBasePackage() + "." + this.getModuleName() + ".model."
+                + this.configuration.getModelClassName();
     }
 
-    public String getClassName() {
-        return className;
+    public String getServiceClass(){
+        return this.getBasePackage() + "." + this.getModuleName() + ".model."
+                + this.configuration.getService().getServiceClassName();
     }
 
-    public void setClassName(String className) {
-        this.className = className;
+    public String getControllerClass(){
+        return this.getBasePackage()+ "." + this.getModuleName() + ".model."
+                + this.configuration.getController().getControllerClassName();
     }
 }

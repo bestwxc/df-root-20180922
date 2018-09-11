@@ -14,7 +14,7 @@ public class ControllerConfiguration {
     /**
      * Controller名称
      */
-    private String controllerClass;
+    private String controllerClassName;
 
     /**
      * 生成查询
@@ -65,12 +65,12 @@ public class ControllerConfiguration {
         this.enabled = enabled;
     }
 
-    public String getControllerClass() {
-        return controllerClass;
+    public String getControllerClassName() {
+        return controllerClassName;
     }
 
-    public void setControllerClass(String controllerClass) {
-        this.controllerClass = controllerClass;
+    public void setControllerClassName(String controllerClassName) {
+        this.controllerClassName = controllerClassName;
     }
 
     public boolean isGenerateList() {

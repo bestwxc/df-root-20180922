@@ -6,8 +6,6 @@ import freemarker.template.TemplateExceptionHandler;
 import net.df.base.utils.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
 import org.springframework.util.ReflectionUtils;
 import java.io.File;
 import java.io.FileWriter;
@@ -26,9 +24,11 @@ public class ServiceBaseMybatisGenerator extends BaseGEnerator {
     @Override
     public void generate(){
         Writer writer = null;
-        String objectName = className.substring(0,1).toLowerCase() + className.substring(1,className.length());
-        String modelClass = basePackage + "." + moduleName + ".model." + className;
-        String serviceClass = basePackage + "." + moduleName + ".service." + className + "Service";
+        String modelClassName = this.getConfiguration().getModelClassName();
+        String moduleName = this.getConfiguration().getModuleName();
+        String objectName = modelClassName.substring(0,1).toLowerCase() + modelClassName.substring(1,modelClassName.length());
+        String modelClass = this.getModelClass();
+        String serviceClass = this.getServiceClass();
         try {
             Class clszz = Class.forName(modelClass);
             LinkedHashMap<String, String> fieldMap = new LinkedHashMap();
@@ -48,7 +48,7 @@ public class ServiceBaseMybatisGenerator extends BaseGEnerator {
             });
             Map<String, Object> map = new HashMap();
             map.put("moduleName", moduleName);
-            map.put("className", className);
+            map.put("className", modelClassName);
             map.put("objectName", objectName);
             map.put("fieldMap", fieldMap);
             map.put("fieldMap2", fieldMap2);

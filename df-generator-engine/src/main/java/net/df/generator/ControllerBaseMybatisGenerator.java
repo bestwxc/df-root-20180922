@@ -9,6 +9,6 @@ public class ControllerBaseMybatisGenerator extends BaseGEnerator{
 
     @Override
     public void generate() {
-
+        
     }
 }

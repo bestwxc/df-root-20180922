@@ -18,7 +18,7 @@ public class Configuration {
     /**
      * 实体类名称
      */
-    private String modelClass;
+    private String modelClassName;
 
     /**
      * Service配置
@@ -51,12 +51,12 @@ public class Configuration {
         this.moduleName = moduleName;
     }
 
-    public String getModelClass() {
-        return modelClass;
+    public String getModelClassName() {
+        return modelClassName;
     }
 
-    public void setModelClass(String modelClass) {
-        this.modelClass = modelClass;
+    public void setModelClassName(String modelClassName) {
+        this.modelClassName = modelClassName;
     }
 
     public ServiceConfiguration getService() {
