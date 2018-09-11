@@ -136,9 +136,9 @@ public class BaseBusinessGenerate extends BaseGEnerator {
         //仅包含业务字段，去除id,create_time,update_time
         LinkedHashMap<String, String> fieldMap = new LinkedHashMap();
         String modelFilePath = this.getConfiguration().getSrcFolder() + File.separator + modelClass.replaceAll("\\.",separator) + ".java";
-
         String modelSource = FileUtils.readFile(modelFilePath);
-        List<String> list = RegexUtils.getMatch(modelSource,"private.+?;$");
+        List<String> list = RegexUtils.getMatch(modelSource,"private.+?;");
+        logger.info("modelFilePath:{},文件数据：{},解析后数据:{}",modelFilePath, modelSource, list);
         if(list.size() == 0){
             throw new DfException("未从model对象中解析到需要的字段");
         }
@@ -146,7 +146,7 @@ public class BaseBusinessGenerate extends BaseGEnerator {
             String[] ss = s.split("\\s");
             String key = ss[2].replaceAll(";","");
             allFieldMap.put(key, ss[1]);
-            if(!"id".equals(ss[1]) && !"createTime".equals(ss[1]) && !"updateTime".equals(ss[1])){
+            if(!"id".equals(key) && !"createTime".equals(key) && !"updateTime".equals(key)){
                 fieldMap.put(key,ss[1]);
             }
         }
@@ -155,14 +155,5 @@ public class BaseBusinessGenerate extends BaseGEnerator {
         //直接将详细的配置放进去
         root.put("config",this.getConfiguration());
         return root;
-    }
-
-    public static void main(String[] args) {
-        String s = "private Long char;";
-        String[] ss = s.split("\\s");
-        for (String sss : ss){
-            System.out.println(sss);
-            System.out.println(sss.length());
-        }
     }
 }
