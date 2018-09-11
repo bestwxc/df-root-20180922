@@ -17,44 +17,35 @@ public class ControllerConfiguration {
     private String controllerClassName;
 
     /**
-     * 生成查询
+     * 类上的
      */
-    private boolean generateList = true;
+    private String classRequestMapping;
 
     /**
-     * 生成新增
+     * 方法上的公共
      */
-    private boolean generateAdd = true;
+    private String methodRequestMapping;
 
-    /**
-     * 生成更新
-     */
-    private boolean generateUpdate = true;
-
-    /**
-     * 生成删除
-     */
-    private boolean generateDelete = true;
 
     /**
      * 查询配置
      */
-    private Map<String,String> list;
+    private Map<String,Object> list;
 
     /**
      * 新增配置
      */
-    private Map<String,String> add;
+    private Map<String,Object> add;
 
     /**
      * 更新配置
      */
-    private Map<String,String> update;
+    private Map<String,Object> update;
 
     /**
      * 删除配置
      */
-    private Map<String,String> delete;
+    private Map<String,Object> delete;
 
 
     public boolean isEnabled() {
@@ -73,67 +64,51 @@ public class ControllerConfiguration {
         this.controllerClassName = controllerClassName;
     }
 
-    public boolean isGenerateList() {
-        return generateList;
+    public String getClassRequestMapping() {
+        return classRequestMapping;
     }
 
-    public void setGenerateList(boolean generateList) {
-        this.generateList = generateList;
+    public void setClassRequestMapping(String classRequestMapping) {
+        this.classRequestMapping = classRequestMapping;
     }
 
-    public boolean isGenerateAdd() {
-        return generateAdd;
+    public String getMethodRequestMapping() {
+        return methodRequestMapping;
     }
 
-    public void setGenerateAdd(boolean generateAdd) {
-        this.generateAdd = generateAdd;
+    public void setMethodRequestMapping(String methodRequestMapping) {
+        this.methodRequestMapping = methodRequestMapping;
     }
 
-    public boolean isGenerateUpdate() {
-        return generateUpdate;
-    }
-
-    public void setGenerateUpdate(boolean generateUpdate) {
-        this.generateUpdate = generateUpdate;
-    }
-
-    public boolean isGenerateDelete() {
-        return generateDelete;
-    }
-
-    public void setGenerateDelete(boolean generateDelete) {
-        this.generateDelete = generateDelete;
-    }
-
-    public Map<String, String> getList() {
+    public Map<String, Object> getList() {
         return list;
     }
 
-    public void setList(Map<String, String> list) {
+    public void setList(Map<String, Object> list) {
         this.list = list;
     }
 
-    public Map<String, String> getAdd() {
+    public Map<String, Object> getAdd() {
         return add;
     }
 
-    public void setAdd(Map<String, String> add) {
+    public void setAdd(Map<String, Object> add) {
         this.add = add;
     }
 
-    public Map<String, String> getUpdate() {
+    public Map<String, Object> getUpdate() {
         return update;
     }
 
-    public void setUpdate(Map<String, String> update) {
+    public void setUpdate(Map<String, Object> update) {
         this.update = update;
     }
 
-    public Map<String, String> getDelete() {
+    public Map<String, Object> getDelete() {
         return delete;
     }
 
-    public void setDelete(Map<String, String> delete) {
+    public void setDelete(Map<String, Object> delete) {
         this.delete = delete;
     }
 }
