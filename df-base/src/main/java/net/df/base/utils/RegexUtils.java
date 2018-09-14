@@ -29,4 +29,14 @@ public class RegexUtils {
             throw new DfException("正则匹配异常",e);
         }
     }
+
+    /**
+     * 检验字符串是否满足匹配
+     * @param content
+     * @param regex
+     * @return
+     */
+    public static boolean match(CharSequence content, String regex){
+        return Pattern.matches(regex, content);
+    }
 }

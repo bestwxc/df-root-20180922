@@ -24,36 +24,59 @@ public class MapUtils {
         }
         return object;
     }
-
-
     /**
-     * 从Map获取字符串
+     * 从Map中获取String
      * @param map
      * @param fieldName
+     * @param autoTrim
      * @return
      */
-    public static String getStringFromMapNotNull(Map<String,?> map,String fieldName){
+    public static String getStringFromMapNotNull(Map<String,?> map,String fieldName,boolean autoTrim){
         Object object = getObjectFromMapNotNull(map,fieldName);
         String value = String.valueOf(object);
         if(ValidateUtils.isEmptyString(value)){
             throw new ParamIllegalException("从map中获取[" + fieldName + "]为空");
         }
-        return value;
+        return autoTrim ? value.trim() : value;
     }
 
     /**
-     * 从Map中获取字符串
+     * 从Map中获取String
+     * @param map
+     * @param fieldName
+     * @param defaultValue
+     * @param autoTrim
+     * @return
+     */
+    public static String getStringFromMap(Map<String,?> map,String fieldName,String defaultValue,boolean autoTrim){
+        try {
+            return getStringFromMapNotNull(map, fieldName,autoTrim);
+        }catch (ParamIllegalException e){
+            return defaultValue;
+        }
+    }
+
+
+
+    /**
+     * 从Map获取String
+     * @param map
+     * @param fieldName
+     * @return
+     */
+    public static String getStringFromMapNotNull(Map<String,?> map,String fieldName){
+        return getStringFromMapNotNull(map, fieldName, true);
+    }
+
+    /**
+     * 从Map中获取String
      * @param map
      * @param fieldName
      * @param defaultValue
      * @return
      */
     public static String getStringFromMap(Map<String,?> map,String fieldName,String defaultValue){
-        try {
-            return getStringFromMapNotNull(map, fieldName);
-        }catch (ParamIllegalException e){
-            return defaultValue;
-        }
+        return getStringFromMap(map, fieldName, defaultValue,true);
     }
 
     /**
